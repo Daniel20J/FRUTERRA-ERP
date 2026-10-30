@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "node scripts/verify.mjs"
+    "test": "node scripts/verify.mjs",
+    "icons:pwa": "node scripts/generate-pwa-icons.mjs",
+    "test:pwa": "npm run build && node scripts/verify-pwa.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.64.0",

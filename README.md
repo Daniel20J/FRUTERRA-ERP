@@ -14,10 +14,13 @@ Abrir la dirección que muestre Vite (normalmente http://localhost:5173).
 
 Credenciales de demostración: **admin / admin123**.
 
+La versión incluye **PWA instalable**: botón «Instalar aplicación», instrucciones para iPhone, iconos, modo independiente y apertura sin conexión después de descargar la interfaz. Para instalarla en el teléfono hay que publicar estos cambios en Vercel y abrir la URL HTTPS; no requiere APK. Ver [docs/PWA.md](docs/PWA.md) para publicación, instalación y pruebas.
+
 ```powershell
 npm.cmd run build
 npm.cmd run lint
 npm.cmd test
+npm.cmd run test:pwa
 npm.cmd run preview
 ```
 

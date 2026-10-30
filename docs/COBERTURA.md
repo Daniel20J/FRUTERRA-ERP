@@ -57,7 +57,7 @@ Los identificadores conocidos del prototipo sirven para preparar el entorno de d
 - Es un frontend de demostración sin servidor, base de datos ni autorización real. El selector de perfiles existe para mostrar el comportamiento por rol.
 - FEL, certificados, documentos aduanales, envío de sincronización, sensores, notificaciones externas, firmas y servicios contables son demostraciones. No se envía información a instituciones ni a terceros.
 - Los códigos de etiqueta pueden consultarse escribiendo o pegando su identificador. No se implementó cámara/lector ni generación de un símbolo QR escaneable.
-- La persistencia local funciona mientras la aplicación está cargada. No se promete una PWA instalable, recarga offline, IndexedDB ni sincronización entre dispositivos.
+- La ampliación PWA permite instalar la aplicación y abrir sus rutas sin conexión después de descargar la interfaz en producción. Ver `PWA.md`. La cola sigue siendo una simulación: no se implementan IndexedDB ni sincronización real entre dispositivos.
 - Las evidencias se registran como referencias de texto; no se almacenan fotografías ni se suben archivos.
 - Los valores de cambio son ilustrativos. No se consultan cotizaciones oficiales. Los impuestos se capturan como importes; no se implementa un motor fiscal.
 - La bitácora no se edita desde el prototipo, pero localStorage no ofrece inmutabilidad ni retención garantizada de cinco años.
