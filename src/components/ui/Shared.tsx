@@ -1,0 +1,3 @@
+export function Footer() { return <div className="foot"><span>FRUTERRA ERP © 2026 / PROPUESTA DE INTERFAZ ACADÉMICA</span><span>NO CONECTADO A PRODUCCIÓN</span></div> }
+export function MetricCard({ label, value, caption }: { label: string; value: number; caption: string }) { return <div className="metric"><small>{label}</small><strong>{value}</strong><em>{caption}</em></div> }
+export function StatusBadge({ value }: { value: string }) { return <span className={'status ' + (/alerta|cuarentena|rechaz|vencido/i.test(value) ? 'danger' : /pendiente|revisión|preparación|investigaci|abierta/i.test(value) ? 'warn' : '')}>{value}</span> }
