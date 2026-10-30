@@ -12,7 +12,7 @@ Los cambios de esta tarea están en el proyecto local. Para que aparezcan en el 
 2. Si Vercel está conectado al repositorio, esperar a que termine el nuevo deployment. Usar build command `npm run build` y output directory `dist`.
 3. Si el despliegue no es automático, desplegar el nuevo commit desde el proyecto existente de Vercel.
 4. Comprobar que `/manifest.webmanifest` devuelve JSON y `/sw.js` devuelve JavaScript, sin redirigir al login ni devolver HTML. Los iconos deben abrirse en `/images/pwa/icon-192.png` y `/images/pwa/icon-512.png`.
-5. Abrir `/login` en el teléfono conectado a internet. Debe aparecer «Instalar aplicación» y, al finalizar la descarga inicial, «Lista para usar sin conexión».
+5. Abrir `/login` en el teléfono conectado a internet e ingresar. El botón «Instalar aplicación» aparece en la esquina superior derecha del ERP, junto a «Demostración» y «Cerrar sesión». La preparación sin conexión se realiza en segundo plano, sin mostrar un mensaje permanente de confirmación.
 
 La configuración adjunta incluye el fallback de React Router y las cabeceras de manifiesto y service worker. Está preparada para servir la aplicación en la raíz del dominio.
 
@@ -36,7 +36,7 @@ El botón de la aplicación muestra estas instrucciones cuando el navegador no o
 
 ## Uso sin conexión
 
-- La primera carga necesita internet. Esperar el mensaje de que está lista antes de cerrar o activar modo avión.
+- La primera carga necesita internet. Mantener la aplicación abierta mientras descarga la interfaz antes de cerrar o activar modo avión.
 - El build guarda la interfaz completa, JavaScript, CSS, manifiesto, iconos y fotografía del login. Las rutas internas regresan al mismo shell de React aunque se abran sin conexión.
 - Las capturas y ediciones siguen usando el almacenamiento local del teléfono. La sesión de demostración continúa usando sessionStorage; si ya no hay sesión, el login también funciona sin internet con `admin / admin123`.
 - No hay sincronización real entre teléfonos o con la computadora. La cola de sincronización del ERP sigue siendo una demostración local.

@@ -16,7 +16,7 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <ErpProvider>
-          <PwaControls />
+          <PwaControls>
           <Routes>
             <Route path="/login" element={<Login />} />
             
@@ -35,6 +35,7 @@ export default function App() {
             
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
+          </PwaControls>
         </ErpProvider>
       </AuthProvider>
     </BrowserRouter>

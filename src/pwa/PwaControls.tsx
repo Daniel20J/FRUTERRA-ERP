@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { PwaInstallContext } from './PwaInstallContext'
 
 interface InstallPromptEvent extends Event {
   prompt: () => Promise<void>
@@ -6,7 +7,7 @@ interface InstallPromptEvent extends Event {
 }
 const standalone = () => window.matchMedia('(display-mode: standalone)').matches || !!(navigator as Navigator & { standalone?: boolean }).standalone
 
-export default function PwaControls() {
+export default function PwaControls({ children }: { children: ReactNode }) {
   const [installed, setInstalled] = useState(() => typeof window !== 'undefined' && standalone())
   const [prompt, setPrompt] = useState<InstallPromptEvent | null>(null)
   const [help, setHelp] = useState(false)
@@ -20,7 +21,6 @@ export default function PwaControls() {
   const [supported] = useState(() => typeof window === 'undefined' || 'serviceWorker' in navigator)
   const reloadRequested = useRef(false)
   const helpRef = useRef<HTMLDivElement>(null)
-  const installButton = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     let active = true
@@ -117,18 +117,18 @@ export default function PwaControls() {
     waiting.postMessage({ type: 'SKIP_WAITING' })
   }
 
-  return <>
+  return <PwaInstallContext.Provider value={{ installed, busy, install: () => void install() }}>
+    {children}
     <div className="pwa-controls no-print" aria-label="Instalación y conexión">
-      {!installed && <button ref={installButton} className="pwa-install" disabled={busy} onClick={() => void install()}>↓ {busy ? 'Abriendo instalación…' : 'Instalar aplicación'}</button>}
-      {(offline || ready || waiting || failure) && <div className="pwa-status" role="status"><span>{failure || (offline ? ready ? 'Sin conexión · puedes trabajar con los datos locales' : 'Sin conexión · la descarga inicial aún no está lista' : ready ? 'Lista para usar sin conexión' : 'Nueva versión disponible')}</span>{waiting && <button onClick={applyUpdate}>Actualizar</button>}</div>}
+      {(offline || waiting || failure) && <div className="pwa-status" role="status"><span>{failure || (offline ? ready ? 'Sin conexión · puedes trabajar con los datos locales' : 'Sin conexión · la descarga inicial aún no está lista' : 'Nueva versión disponible')}</span>{waiting && <button onClick={applyUpdate}>Actualizar</button>}</div>}
     </div>
     {help && <div className="pwa-modal-back no-print" onClick={event => { if (event.target === event.currentTarget) setHelp(false) }}><div className="pwa-modal" role="dialog" aria-modal="true" aria-labelledby="pwa-title" ref={helpRef}><div className="drawerheader"><h2 id="pwa-title">Instalar FRUTERRA</h2><button className="close" aria-label="Cerrar instrucciones" onClick={() => setHelp(false)}>×</button></div>
       {!secure ? <p>Para instalarla, abre la dirección publicada de FRUTERRA con HTTPS. Una dirección de red como http://192.168… sirve para verla, pero no permite preparar la PWA.</p> : !supported ? <p>Este navegador no permite preparar el uso sin conexión. Abre el enlace en Safari, Chrome o Edge actualizado.</p> : <>
         {platform === 'ios' ? <ol><li>Abre este enlace en Safari.</li><li>Toca <strong>Compartir</strong> y <strong>Agregar a pantalla de inicio</strong>.</li><li>Si aparece, activa <strong>Abrir como app web</strong> y toca <strong>Agregar</strong>.</li></ol> : <ol><li>Abre el enlace de FRUTERRA en Chrome o Edge.</li><li>En el menú del navegador, elige <strong>Instalar aplicación</strong> o <strong>Agregar a pantalla de inicio</strong>.</li><li>Confirma la instalación. El navegador decide cuándo mostrar esa opción.</li></ol>}
         {!import.meta.env.PROD && <p className="note">La preparación sin conexión se habilita en la versión publicada o en la vista previa del build de producción.</p>}
-        <p>Espera a ver «Lista para usar sin conexión» antes de cerrar la primera vez. La aplicación se agrega a la pantalla de inicio; no necesitas descargar un APK.</p>
+        <p>Abre la aplicación con internet la primera vez para que se descargue la interfaz. La aplicación se agrega a la pantalla de inicio; no necesitas descargar un APK.</p>
       </>}
       <p className="note">Los registros se guardan en este dispositivo. Instalar la app en otro teléfono no copia los datos de la computadora.</p><div className="drawerfooter"><button className="action" onClick={() => setHelp(false)}>Entendido</button></div>
     </div></div>}
-  </>
+  </PwaInstallContext.Provider>
 }
